@@ -13,6 +13,7 @@ Collection of python script modifiers for [OVITO Pro](https://www.ovito.org/). E
 
 ## GenerateRandomSolution.py
 - Replaces the current atomic configurations with a new random arrangement. The concentrations per species are given in the `conc` array (`sum conc == 1`).
+- `only_selected` applies the modifier only to selected atoms.
 
 ## SelectSphere.py
 - Select a spherical region of a given `radius` around a `center` point.

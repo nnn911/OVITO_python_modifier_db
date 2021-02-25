@@ -4,29 +4,54 @@ from ovito.data import *
 import numpy as np
 
 
-def modify(frame: int, data: DataCollection, conc=(0.5, 0.5), seed=123456):
+def _create_initial_conc_vec(length, conc):
+    conc_vec = []
+    for i, c in enumerate(conc):
+        conc_vec += ([i+1]*int(length*c))
+    return conc_vec
+
+
+def _pad_conc_vec(conc_vec, length, conc):
+    x_p = np.cumsum(conc)
+    while len(conc_vec) < length:
+        # conc_vec.append(np.sum(x_p < rng.random())+1)
+        conc_vec.append(np.sum(x_p < np.random.random())+1)
+    return conc_vec
+
+
+def _calculate_concentration(data):
+    pt, count = np.unique(data.particles['Particle Type'], return_counts=True)
+    count = count / np.sum(count)
+    print('New concentrations:')
+    for p, c in zip(pt, count):
+        print(f'Type {p}: {c}')
+    return pt, count
+
+
+def modify(frame: int, data: DataCollection, conc=(0.5, 0.5), seed=123456,
+           only_selected=False):
+    assert (not only_selected) | ('Selection' in data.particles.keys()), \
+        'No selection defined!'
     assert np.isclose(np.sum(conc), 1), f'sum conc = {np.sum(conc)} != 1'
 
     # new np syntax (currently not supported by ovito)
     # rng = np.random.default_rng(seed)
     np.random.seed = seed
 
-    conc_vec = []
-    for i, c in enumerate(conc):
-        conc_vec += ([i+1]*int(data.particles.count*c))
+    if only_selected:
+        select = np.array(data.particles['Selection'])
+        select = select.astype(int)
 
-    x_p = np.cumsum(conc)
-    while len(conc_vec) < data.particles.count:
-        # conc_vec.append(np.sum(x_p < rng.random())+1)
-        conc_vec.append(np.sum(x_p < np.random.random())+1)
+    length = data.particles.count if not only_selected else np.sum(select)
+    conc_vec = _create_initial_conc_vec(length, conc)
+    conc_vec = _pad_conc_vec(conc_vec, length, conc)
 
     conc_vec = np.array(conc_vec)
     np.random.shuffle(conc_vec)
     # rng.shuffle(conc_vec)
 
-    data.particles_['Particle Type_'][...] = conc_vec
-    pt, count = np.unique(conc_vec, return_counts=True)
-    count = count / np.sum(count)
-    print('New concentrations:')
-    for p, c in zip(pt, count):
-        print(f'Type {p}: {c}')
+    if only_selected:
+        data.particles_['Particle Type_'][np.where(select == 1)[0]] = conc_vec
+    else:
+        data.particles_['Particle Type_'][...] = conc_vec
+    _ = _calculate_concentration(data)
