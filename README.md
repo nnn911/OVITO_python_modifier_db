@@ -2,6 +2,9 @@
 
 Collection of python script modifiers for [OVITO Pro](https://www.ovito.org/). Each script is designed to be used on a data collection from the graphical user interface using the `python script modifier`. The OVITO version used for testing can be found in each individual script.
 
+## Installation
+To make these modifiers available from the 'Add modification...' dropdown menu the `*.py` files can be copied to `ovito-pro-root-dir/share/ovito/scripts/modifiers/`
+
 ## AddParticle.py
 - Adds a single particle of type `symbol` (integer or string) at position `x`, `y`, `z` to the data collection.
 
