@@ -21,6 +21,12 @@ To make these modifiers available from the 'Add modification...' dropdown menu t
 - Replaces the current atomic configurations with a new random arrangement. The concentrations per species are given in the `conc` array (`sum conc == 1`).
 - `only_selected` applies the modifier only to selected atoms.
 
+## JiggleAtoms.py
+- Randomly displaces all atoms.
+- `mode` can be either "uniform" or "normal". Depending on the mode, random displacements are either drawn from a uniform or normal distribution.
+- `amp` gives the displacement magnitude (mode: uniform) or standard deviation (mode: normal)
+- `seed` sets the starting value of the random number generator.
+
 ## SelectSphere.py
 - Select a spherical region of a given `radius` around a `center` point.
 - `add_to_selection` toggle can be used to add to the current selection or create a new one.
