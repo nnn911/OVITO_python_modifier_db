@@ -5,12 +5,15 @@ Collection of python script modifiers for [OVITO Pro](https://www.ovito.org/). E
 ## Installation
 To make these modifiers available from the 'Add modification...' dropdown menu the `*.py` files can be copied to `ovito-pro-root-dir/share/ovito/scripts/modifiers/`
 
+# Modifiers
 ## AddParticle.py
 - Adds a single particle of type `symbol` (integer or string) at position `x`, `y`, `z` to the data collection.
 
 ## AddParticles.py
 - Adds multiple particles defined by the particle type array `symbol` and the position arrays `x`, `y`, `z` to the data collection.
 
+## ApplyDefaultParticleTypes.py
+- Reads the species names, e.g. Cu, from the `types` property and applies the corresponding default settings stored in OVITO.
 ## FixParticleIdentifier.py
 - Replaces the current `Particle Identifer` array with a new continuous one, starting at `init_val`. This can be necessary after particles were inserted or deleted.
 
@@ -25,3 +28,11 @@ To make these modifiers available from the 'Add modification...' dropdown menu t
 ## SelectCylinder.py
 - Select a cylindrical region of a given `radius` from point `p1` to point `p2`.
 - `add_to_selection` toggle can be used to add to the current selection or create a new one.
+
+# File Readers
+
+## ReadASEdb.py
+- Read an ASE database into the timeline
+
+## ReadMol2file.py
+- Read a mol2 file into the timeline
