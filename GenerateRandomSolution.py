@@ -23,8 +23,8 @@ def _calculate_concentration(data):
     pt, count = np.unique(data.particles["Particle Type"], return_counts=True)
     count = count / np.sum(count)
     print("New concentrations:")
-    for p, c in zip(pt, count):
-        print(f"Type {p}: {c}")
+    for p, c in zip(data.particles["Particle Type"].types, count):
+        print(f"{p.name}: {c}")
     return pt, count
 
 
@@ -35,6 +35,17 @@ def modify(
         "Selection" in data.particles.keys()
     ), "No selection defined!"
     assert np.isclose(np.sum(conc), 1), f"sum conc = {np.sum(conc)} != 1"
+
+    np.random.seed = seed
+    while len(conc) > len(data.particles["Particle Type"].types):
+        new_id = len(data.particles["Particle Type"].types) + 1
+        data.particles_["Particle Type_"].types.append(
+            ParticleType(
+                id=new_id,
+                name=f"Type {new_id}",
+                color=np.random.random(size=3),
+            )
+        )
 
     # new np syntax (currently not supported by ovito)
     # rng = np.random.default_rng(seed)
