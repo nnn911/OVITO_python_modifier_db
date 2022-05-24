@@ -14,6 +14,11 @@ To make these modifiers available from the 'Add modification...' dropdown menu t
 
 ## ApplyDefaultParticleTypes.py
 - Reads the species names, e.g. Cu, from the `types` property and applies the corresponding default settings stored in OVITO.
+## CreateNeighborLists.py
+- Create neighbor lists for each atom and store them in a particle property
+- `num_neighors` should contain a list of neighbors per shell, e.g., `[12, 8]` to find the first 12 neighbors for the first shell and the subsequent 8 for the second neighbor shell.
+- `only_selected` calculate the neighbor lists only for selected elements, note that neighboring atoms are still found, even if they are not selected.
+- `use_particle_identifier` toggles the usage of particle identifiers or particle indicies in the neighbor list
 ## FixParticleIdentifier.py
 - Replaces the current `Particle Identifer` array with a new continuous one, starting at `init_val`. This can be necessary after particles were inserted or deleted.
 
